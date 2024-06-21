@@ -1,0 +1,25 @@
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Password@1234
+    ports:
+      - "3306:3306"
+  backend:
+    container_name: s1mple-commerce-backend
+    image: ${DOCKER_REGISTRY-}s1mple-commerce-backend:lastest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on: [mysql]
+    ports:
+      - "8081:8080"
+  frontend:
+    container_name: s1mple-commerce-frontend
+    image: ${DOCKER_REGISTRY-}s1mple-commerce-frontend:lastest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
